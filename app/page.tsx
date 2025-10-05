@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -24,6 +25,14 @@ export default function Home() {
             Save and see your changes instantly.
           </li>
         </ol>
+
+        {/* 👇 ログインページへのリンクを追加 */}
+        <Link
+          href="/login"
+          className="rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-2 transition"
+        >
+          ログインページへ
+        </Link>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
