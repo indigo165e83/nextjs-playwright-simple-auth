@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 /**
  * Read environment variables from file.
@@ -26,7 +27,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -34,20 +35,33 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // 1) セットアップ専用（ログインして storageState.json を出力）
+    {
+      name: 'setup',
+      testMatch: /auth\.setup\.ts/,
+    },
+    // 2) 通常のE2E（setup に依存し、storageStateを使い回す）
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      storageState: path.join(__dirname, 'tests', 'storageState.json'),
     },
 
+    /*
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      storageState: path.join(__dirname, 'tests', 'storageState.json'),
     },
+    */
 
+    /*
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      storageState: path.join(__dirname, 'tests', 'storageState.json'),
     },
+    */
 
     /* Test against mobile viewports. */
     // {
